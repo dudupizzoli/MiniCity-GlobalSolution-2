@@ -63,7 +63,7 @@ class UsuarioDAO:
             return None
 
         cursor = conn.cursor()
-        sql = """select id_usuario, username, email, assinatura from usuarios_minicity order by id_usuario"""
+        sql = """select id_usuario, username, senha, email, assinatura from usuarios_minicity order by id_usuario"""
 
         try:
             cursor.execute(sql)
@@ -87,7 +87,7 @@ class UsuarioDAO:
             return None
         
         cursor = conn.cursor()
-        sql = """select id_usuario, username, email, assinatura from usuarios_minicity where username = :username"""
+        sql = """select id_usuario, username, senha, email, assinatura from usuarios_minicity where username = :username"""
 
         try:
             cursor.execute(sql, username =username)

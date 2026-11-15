@@ -120,7 +120,121 @@ while opcao != 0:
             print("EM DESENVOLVIMENTO")
 
         case 4:
-            print("EM DESENVOLVIMENTO")
+            while True:    #Submenu do sistema - trata sobre as contas do usuário | Aqui se encontra um CRUD
+                print("\n======= Menu MiniCity - Usuário =======")
+                print("1 - Conferir conta atual.") #Confere a conta logada atualmente
+                print("2 - Logar em outra conta.") #Faz o login em outra conta
+                print("3 - Cadastrar nova conta.") #Create
+                print("4 - Ver contas cadastradas.") #Read
+                print("5 - Procurar conta pelo nome de usuário.")#Read
+                print("6 - Editar nome de usuário e email.") #Update
+                print("7 - Remover conta.") #Delete
+                print("8 - Voltar.") #Voltar ao menu principal
+                try:
+                    opcao_user = int(input("Digite o número da opção que você deseja: "))
+                except ValueError:
+                    print("Opção inválida. Digite apenas números.")
+                    continue
+                match opcao_user:
+                    case 1:
+                        print("\n=== Conta Logada Atualmente ===")
+                        print(usuario_atual)
+
+                    case 2:
+                            try:
+                                email = validar_texto("Digite seu email: ")
+                                senha = validar_texto("Digite sua senha: ")
+                                validar_credenciais(email, senha)
+
+                                usuario_validado = user_dao.validar_login(email, senha)
+
+                                if usuario_validado is None:
+                                    raise ValueError("Email ou senha incorretos.")        
+                                else: 
+                                    usuario_atual = usuario_validado
+                                    print("O login foi efetuado com sucesso!")
+                                    print("Agora você está logado com: ", usuario_atual._username)  
+
+                            except ValueError as erro:
+                                print("Ocorreu um erro: ", erro)
+                    
+
+                    case 3:
+                        try:
+                            username = validar_texto("Digite seu nome de usuário: ")
+                            email = validar_texto("Digite seu email: ")
+                            senha = validar_texto("Sua senha precisa conter ao menos 4 caracteres e não pode ter espaços. Digite sua senha: ")
+                            validar_credenciais(email, senha)
+
+                            novo_usuario = Usuario(username, senha, email)
+                            user_dao.cadastrar_usuario(novo_usuario)
+                        except ValueError as erro:
+                            print("Ocorreu um erro: ", erro)
+
+                    case 4:
+                        usuarios = user_dao.listar_usuarios()
+                        if usuarios is None:
+                            print("Nenhum usuário cadastrado.")
+                        else:
+                            for usuario in usuarios:
+                                print("\n========================")
+                                print("ID do usuário: ", usuario[0])
+                                print("Nome de usuário: ", usuario[1])
+                                print("Email: ", usuario[3])
+                                print("Plano: ", usuario[4])
+
+                    case 5:
+                        username_procurado = validar_texto("Digite o Username da conta que você deseja buscar: ")
+                        usuario = user_dao.buscar_nome_usuario(username_procurado)
+                        if usuario is None:
+                            print("Nenhum usuário foi encontrado.")
+                        else:
+                            print("\n========================")
+                            print("ID do usuário: ", usuario[0])
+                            print("Nome de usuário: ", usuario[1])
+                            print("Email: ", usuario[3])
+                            print("Plano: ", usuario[4])  
+
+                    case 6:
+                        usuario_editado = validar_texto("Digite o nome do usuário que você deseja editar: ")
+                        usuario = user_dao.editar_usuario(usuario_editado)
+                        if usuario is None:
+                            print("Não foi possível editar o usuário.")
+                        else:
+                            if usuario[0] == usuario_atual._id_usuario:
+                                usuario_atual._username = usuario[1]
+                                usuario_atual._email_user = usuario[3]
+
+                            print("\n========================")
+                            print("ID do usuário: ", usuario[0])
+                            print("Nome de usuário: ", usuario[1])
+                            print("Email: ", usuario[3])
+                            print("Plano: ", usuario[4])      
+
+                    case 7:
+                        usuario_excluido = validar_texto("Digite o nome do usuário que você deseja excluir: ")
+                        usuario = user_dao.buscar_nome_usuario(usuario_excluido)
+                        if usuario is None:
+                            print("Nenhum usuário foi encontrado.")
+                        else:
+                            print("\n========================")
+                            print("ID do usuário: ", usuario[0])
+                            print("Nome de usuário: ", usuario[1])
+                            print("Email: ", usuario[3])
+                            print("Plano: ", usuario[4])  
+
+                            conta_excluida = user_dao.excluir_usuario(usuario_excluido)
+                            if conta_excluida and usuario[0] == usuario_atual._id_usuario:
+                                print("Sua conta foi excluída. Encerrando sistema...")
+                                opcao = 0
+                                break                      
+
+                    case 8:
+                        print("Voltando ao menu anterior...")
+                        break
+                    
+                    case _:
+                        print("Opção inválida. Digite uma opção válida do menu.")
 
         case 5:
             print("EM DESENVOLVIMENTO")
