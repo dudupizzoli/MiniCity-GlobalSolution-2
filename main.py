@@ -37,7 +37,7 @@ opcao_login = -1
 
 while not login: #Menu de login, permite a criação de uma conta e o login caso o usuário já possua uma conta
     print("\n=======================================")
-    print("Bem-vindo à SoulUp Society!!")
+    print("Bem-vindo à MiniCity!")
     print("Ainda não possui uma conta? Cadastre-se!")
     print("1 - Realizar cadastro.")
     print("Já possui uma conta? Faça o login!")
@@ -56,10 +56,8 @@ while not login: #Menu de login, permite a criação de uma conta e o login caso
                 senha = validar_texto("Sua senha precisa conter ao menos 4 caracteres e não pode ter espaços. Digite sua senha: ")
                 validar_credenciais(email, senha)
                 novo_usuario = Usuario(username, senha, email)
-                Usuario.definir_missoes(novo_usuario)
 
                 if user_dao.cadastrar_usuario(novo_usuario):
-                    user_dao.adicionar_missoes(novo_usuario._id_usuario, novo_usuario._missoes)
 
                     usuario_atual = user_dao.validar_login(email, senha)
                     if usuario_atual is not None:
@@ -71,7 +69,7 @@ while not login: #Menu de login, permite a criação de uma conta e o login caso
         case 2:
                 try:
                     email = validar_texto("Digite seu email: ")
-                    senha = validar_texto("Sua senha precisa conter ao menos 4 caracteres e não pode ter espaços. Digite sua senha: ")
+                    senha = validar_texto("Digite sua senha: ")
                     validar_credenciais(email, senha)
                     usuario_validado = user_dao.validar_login(email, senha)
 
@@ -92,3 +90,45 @@ while not login: #Menu de login, permite a criação de uma conta e o login caso
         
         case _:
             print("Opção inválida. Digite uma opção válida do menu.")
+
+opcao = -1
+
+while opcao != 0:
+    print("\n===== Menu MiniCity =====")
+    print("1 - Conhecer a MiniCity.") #Opção para ver algumas informações a respeito da MiniCity
+    print("2 - Consultar notícias e estabelecimentos.") #Submenu para consultar notícias e estabelecimentos por perto, além de buscar por locais
+    print("3 - Escrever relatório.") #Submenu para escrever relatórios
+    print("4 - Central do usuário.") #Submenu do usuário
+    print("5 - Criar JSON.") #Opção para criar um relatório de usuários em JSON
+    print("0 - Sair.") #Saída do sistema
+    try:
+        opcao = int(input("Digite o número da opção que você deseja: "))
+    except ValueError:
+        print("Opção inválida. Digite apenas números.")
+        continue
+
+    match opcao:
+        case 1:
+            print("Bem-vindo(a) à MiniCity!!! \n A MiniCity é uma startup criada em Novembro de 2026 baseada nos famosos mini mapas de videogames. Temos intenção de ajudar na distribuição de notícias geograficamente relevantes para a população. Focamos em ajudar os usuários a conhecer melhor o seu redor, além de incentivar a prática da cidadania. ")
+            print("\nAtualmente, nossos projetos estão voltados para o desenvolvimento de mapas que exibirão notícias, relatórios de cidadãos e estabelecimentos bem avaliados de forma geolocalizada, facilitando o compartilhamento de notícias relevantes para a rotina das pessoas.")
+            print("\nAlém de simlesmente exibir notícias, a MiniCity deseja incentivar a participação do cidadão na sociedade. Os usuários poderão publicar relatórios falando sobre ocorrências como alagamentos ou lotações para ajudar outros usuários e moradores da região.")
+
+        case 2:
+            print("EM DESENVOLVIMENTO")
+            
+        case 3:
+            print("EM DESENVOLVIMENTO")
+
+        case 4:
+            print("EM DESENVOLVIMENTO")
+
+        case 5:
+            print("EM DESENVOLVIMENTO")
+
+        case 0:
+            print("Encerrando sistema...")
+            break
+        
+        case _:
+            print("Opção inválida. Digite uma opção válida do menu.")
+

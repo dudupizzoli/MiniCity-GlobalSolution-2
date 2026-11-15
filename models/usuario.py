@@ -1,6 +1,6 @@
 class Usuario:
     #Construtor da classe Local
-    def __init__(self, username, senha_user, email_user, assinatura, id_usuario=None, relatorios=None):
+    def __init__(self, username, senha_user, email_user, assinatura="Padrão", id_usuario=None, relatorios=None):
         self._id_usuario = id_usuario
         self._username = username
         self._senha_user = senha_user
