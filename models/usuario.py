@@ -7,9 +7,9 @@ class Usuario:
         self._email_user = email_user
         self._assinatura = assinatura
         if relatorios is None:
-            self._missoes = []
+            self._relatorios = []
         else:
-            self._missoes = relatorios
+            self._relatorios = relatorios
     
     #Método para exibir o objeto Usuario
     def __str__(self):

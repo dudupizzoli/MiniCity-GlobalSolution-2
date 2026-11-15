@@ -96,10 +96,11 @@ opcao = -1
 while opcao != 0:
     print("\n===== Menu MiniCity =====")
     print("1 - Conhecer a MiniCity.") #Opção para ver algumas informações a respeito da MiniCity
-    print("2 - Consultar notícias e estabelecimentos.") #Submenu para consultar notícias e estabelecimentos por perto, além de buscar por locais
-    print("3 - Escrever relatório.") #Submenu para escrever relatórios
-    print("4 - Central do usuário.") #Submenu do usuário
-    print("5 - Criar JSON.") #Opção para criar um relatório de usuários em JSON
+    print("2 - Ver Planos.") #Opção para ver os planos disponíveis e assinar
+    print("3 - Consultar notícias e estabelecimentos.") #Submenu para consultar notícias e estabelecimentos por perto, além de buscar por locais
+    print("4 - Escrever relatório.") #Submenu para escrever relatórios
+    print("5 - Central do usuário.") #Submenu do usuário
+    print("6 - Criar JSON.") #Opção para criar um relatório de usuários em JSON
     print("0 - Sair.") #Saída do sistema
     try:
         opcao = int(input("Digite o número da opção que você deseja: "))
@@ -113,13 +114,25 @@ while opcao != 0:
             print("\nAtualmente, nossos projetos estão voltados para o desenvolvimento de mapas que exibirão notícias, relatórios de cidadãos e estabelecimentos bem avaliados de forma geolocalizada, facilitando o compartilhamento de notícias relevantes para a rotina das pessoas.")
             print("\nAlém de simlesmente exibir notícias, a MiniCity deseja incentivar a participação do cidadão na sociedade. Os usuários poderão publicar relatórios falando sobre ocorrências como alagamentos ou lotações para ajudar outros usuários e moradores da região.")
 
-        case 2:
-            print("EM DESENVOLVIMENTO")
-            
         case 3:
+            while True:    #Submenu do sistema - trata sobre as consultas dos mapas 
+                print("\n======= Menu MiniCity - Mapa =======")
+                print("1 - Ver meu local.") # Mostra o local em que o usuário se encontra atualmente
+                print("2 - Ver notícias perto de mim.") # Mostra notícias que ocorreram perto do local em que o usuário se encontra atualmente
+                print("3 - Ver estabelecimentos e comércios perto de mim.") # Mostra estabelecimentos perto do local em que o usuário se encontra atualmente
+                print("4 - Buscar local.") # Busca um local para o usuário ver as notícias
+                print("5 - Ver histórico de locais buscados.") # Mostra o histórico de locais que o usuário buscou
+                print("6 - Voltar.") #Volta ao menu principal
+                try:
+                    opcao_mapa = int(input("Digite o número da opção que você deseja: "))
+                except ValueError:
+                    print("Opção inválida. Digite apenas números.")
+                    continue
+            
+        case 4:
             print("EM DESENVOLVIMENTO")
 
-        case 4:
+        case 5:
             while True:    #Submenu do sistema - trata sobre as contas do usuário | Aqui se encontra um CRUD
                 print("\n======= Menu MiniCity - Usuário =======")
                 print("1 - Conferir conta atual.") #Confere a conta logada atualmente
@@ -129,7 +142,7 @@ while opcao != 0:
                 print("5 - Procurar conta pelo nome de usuário.")#Read
                 print("6 - Editar nome de usuário e email.") #Update
                 print("7 - Remover conta.") #Delete
-                print("8 - Voltar.") #Voltar ao menu principal
+                print("8 - Voltar.") #Volta ao menu principal
                 try:
                     opcao_user = int(input("Digite o número da opção que você deseja: "))
                 except ValueError:
@@ -236,7 +249,7 @@ while opcao != 0:
                     case _:
                         print("Opção inválida. Digite uma opção válida do menu.")
 
-        case 5:
+        case 6:
             print("EM DESENVOLVIMENTO")
 
         case 0:
