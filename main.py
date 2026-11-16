@@ -2,8 +2,10 @@ import sys
 from models.usuario import Usuario
 from models.local import Local
 from dao.usuario_dao import UsuarioDAO
+from dao.relatorio_dao import RelatorioDAO
 
 user_dao = UsuarioDAO()
+relatorio_dao = RelatorioDAO()
 
 def validar_texto(mensagem): #Função para ler texto
     while True:
@@ -23,7 +25,7 @@ def ler_inteiro(mensagem): #Função para ler números inteiros
             else:
                 return valor
         except ValueError as erro:
-            print("Ocorreu um erro: ", erro, ". Digite apenas números válidos.")
+            print(f"Ocorreu um erro: {erro}", ". Digite apenas números válidos.")
 
 def validar_credenciais(email, senha): #Função para validar email e senha colocados pelo usuário
     if len(senha) < 4 or " " in senha:
@@ -64,7 +66,7 @@ while not login: #Menu de login, permite a criação de uma conta e o login caso
                         print("Agora você está logado com: ", usuario_atual._username)     
                         login = True  
             except ValueError as erro:
-                print("Ocorreu um erro: ", erro)
+                print(f"Ocorreu um erro: {erro}")
 
         case 2:
                 try:
@@ -82,7 +84,7 @@ while not login: #Menu de login, permite a criação de uma conta e o login caso
                         print("Agora você está logado com: ", usuario_atual._username)  
 
                 except ValueError as erro:
-                    print("Ocorreu um erro: ", erro)
+                    print(f"Ocorreu um erro: {erro}")
 
         case 3:
             print("Encerrando sistema...")
@@ -97,7 +99,7 @@ while opcao != 0:
     print("\n===== Menu MiniCity =====")
     print("1 - Geral") #Submenu com opções gerais
     print("2 - Consultar notícias e estabelecimentos.") #Submenu para consultar notícias e estabelecimentos por perto, além de buscar por locais
-    print("3 - Escrever relatório.") #Submenu para escrever relatórios
+    print("3 - Escrever relatório cidadão.") #Submenu para escrever relatórios
     print("4 - Central do usuário.") #Submenu do usuário
     print("5 - Criar JSON.") #Opção para criar um relatório de usuários em JSON
     print("0 - Sair.") #Saída do sistema
@@ -206,7 +208,98 @@ while opcao != 0:
                     continue
             
         case 3:
-            print("EM DESENVOLVIMENTO")
+            while True:  #Submenu do sistema - trata sobre os relatórios enviados pelo usuário | Aqui se encontra um CRUD
+                print("\n======= Menu MiniCity - Relatório Cidadão =======") 
+                print("1 - Escrever novo relatório.") #Create   
+                print("2 - Ver todos os relatórios.") #Read
+                print("3 - Procurar relatório pelo ID.") #Read    
+                print("4 - Editar um relatório.") #Update  
+                print("5 - Excluir um relatório.") #Delete
+                print("6 - Voltar.") 
+                try:
+                    opcao_relatorio = int(input("Digite o número da opção que você deseja: "))
+                except ValueError:
+                    print("Opção inválida. Digite apenas números.")
+                    continue
+
+                match opcao_relatorio:
+                    case 1: 
+                        try: 
+                            endereco_relatorio = validar_texto("Qual o endereço da ocorrência? ")
+                            if len(endereco_relatorio) > 200:
+                                raise ValueError("O endereço não pode conter mais do que 200 caracteres.")
+                            
+                            texto_relatorio = validar_texto("Qual foi a ocorrência? ")
+                            if len(texto_relatorio) > 400:
+                                raise ValueError("O relatório não pode conter mais do que 400 caracteres.")
+
+                            relatorio_dao.fazer_relatorio(usuario_atual._id_usuario, texto_relatorio, endereco_relatorio)
+
+                        except ValueError as erro:
+                            print(f"Ocorreu um erro: {erro}") 
+
+                    case 2:
+                        relatorios = relatorio_dao.listar_relatorios()
+                        if relatorios is None:
+                            print("Nenhum relatório foi publicado.")  
+                        else:
+                            for relatorio in relatorios:
+                                print("\n========================")
+                                print(f"ID do relatório: {relatorio[0]}")
+                                print(f"Endereço da ocorrência: {relatorio[2]}")
+                                print(f"Relatório: {relatorio[1]}")  
+
+                    case 3:
+                        relatorio_procurado = ler_inteiro("Digite o ID do relatório que você deseja buscar: ")
+                        relatorio = relatorio_dao.buscar_id_relatorio(relatorio_procurado)
+                        if relatorio is None:
+                            print("Nenhum relatório foi encontrada.")
+                        else:
+                            print("\n========================")
+                            print(f"ID do relatório: {relatorio[0]}")
+                            print(f"Endereço da ocorrência: {relatorio[2]}")
+                            print(f"Relatório: {relatorio[1]}")      
+
+                    case 4:
+                        relatorio_editado = ler_inteiro("Digite o ID do relatório que você deseja editar: ")
+                        relatorio_encontrado = relatorio_dao.buscar_id_relatorio(relatorio_editado)
+                        if relatorio_encontrado is None:
+                            print("Nenhum relatório foi encontrado.")
+
+                        elif relatorio_encontrado[3] != usuario_atual._id_usuario:
+                            print("Não é possível editar os relatórios de outros usuários.")
+
+                        else:
+                            relatorio = relatorio_dao.editar_relatorio(relatorio_editado)
+                            if relatorio is not None:
+                                print("\n========================")
+                                print(f"ID do relatório: {relatorio[0]}")
+                                print(f"Endereço da ocorrência: {relatorio[2]}")
+                                print(f"Relatório: {relatorio[1]}")  
+
+                    case 5:
+                        relatorio_excluido = ler_inteiro("Digite o ID do relatório que você deseja excluir: ")
+                        relatorio = relatorio_dao.buscar_id_relatorio(relatorio_excluido)
+                        if relatorio is None:
+                            print("Nenhum relatório foi encontrada.")
+
+                        elif relatorio[3] != usuario_atual._id_usuario:
+                            print("Não é possível excluir os relatórios de outros usuários.")
+
+                        else:
+                            print("\n========================")
+                            print(f"ID do relatório: {relatorio[0]}")
+                            print(f"Endereço da ocorrência: {relatorio[2]}")
+                            print(f"Relatório: {relatorio[1]}") 
+
+                            relatorio_dao.excluir_relatorio(relatorio_excluido) 
+                    
+                    case 6:
+                        print("Voltando ao menu anterior...")
+                        break
+
+                    case _:
+                        print("Opção inválida. Digite uma opção válida do menu.")
 
         case 4:
             while True:    #Submenu do sistema - trata sobre as contas do usuário | Aqui se encontra um CRUD
@@ -245,7 +338,7 @@ while opcao != 0:
                                     print("Agora você está logado com: ", usuario_atual._username)  
 
                             except ValueError as erro:
-                                print("Ocorreu um erro: ", erro)
+                                print(f"Ocorreu um erro: {erro}")
                     
 
                     case 3:
@@ -258,7 +351,7 @@ while opcao != 0:
                             novo_usuario = Usuario(username, senha, email)
                             user_dao.cadastrar_usuario(novo_usuario)
                         except ValueError as erro:
-                            print("Ocorreu um erro: ", erro)
+                            print(f"Ocorreu um erro: {erro}")
 
                     case 4:
                         usuarios = user_dao.listar_usuarios()
@@ -267,10 +360,10 @@ while opcao != 0:
                         else:
                             for usuario in usuarios:
                                 print("\n========================")
-                                print("ID do usuário: ", usuario[0])
-                                print("Nome de usuário: ", usuario[1])
-                                print("Email: ", usuario[3])
-                                print("Plano: ", usuario[4])
+                                print(f"ID do usuário: {usuario[0]}")
+                                print(f"Nome de usuário: {usuario[1]}")
+                                print(f"Email: {usuario[3]}")
+                                print(f"Plano: {usuario[4]}")
 
                     case 5:
                         username_procurado = validar_texto("Digite o Username da conta que você deseja buscar: ")
@@ -279,10 +372,10 @@ while opcao != 0:
                             print("Nenhum usuário foi encontrado.")
                         else:
                             print("\n========================")
-                            print("ID do usuário: ", usuario[0])
-                            print("Nome de usuário: ", usuario[1])
-                            print("Email: ", usuario[3])
-                            print("Plano: ", usuario[4])  
+                            print(f"ID do usuário: {usuario[0]}")
+                            print(f"Nome de usuário: {usuario[1]}")
+                            print(f"Email: {usuario[3]}")
+                            print(f"Plano: {usuario[4]}")
 
                     case 6:
                         usuario_editado = validar_texto("Digite o nome do usuário que você deseja editar: ")
@@ -295,10 +388,10 @@ while opcao != 0:
                                 usuario_atual._email_user = usuario[3]
 
                             print("\n========================")
-                            print("ID do usuário: ", usuario[0])
-                            print("Nome de usuário: ", usuario[1])
-                            print("Email: ", usuario[3])
-                            print("Plano: ", usuario[4])      
+                            print(f"ID do usuário: {usuario[0]}")
+                            print(f"Nome de usuário: {usuario[1]}")
+                            print(f"Email: {usuario[3]}")
+                            print(f"Plano: {usuario[4]}")    
 
                     case 7:
                         usuario_excluido = validar_texto("Digite o nome do usuário que você deseja excluir: ")
@@ -307,10 +400,10 @@ while opcao != 0:
                             print("Nenhum usuário foi encontrado.")
                         else:
                             print("\n========================")
-                            print("ID do usuário: ", usuario[0])
-                            print("Nome de usuário: ", usuario[1])
-                            print("Email: ", usuario[3])
-                            print("Plano: ", usuario[4])  
+                            print(f"ID do usuário: {usuario[0]}")
+                            print(f"Nome de usuário: {usuario[1]}")
+                            print(f"Email: {usuario[3]}")
+                            print(f"Plano: {usuario[4]}")
 
                             conta_excluida = user_dao.excluir_usuario(usuario_excluido)
                             if conta_excluida and usuario[0] == usuario_atual._id_usuario:

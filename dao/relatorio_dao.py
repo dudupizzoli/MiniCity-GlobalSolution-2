@@ -96,13 +96,10 @@ class RelatorioDAO:
             cursor.close()
             conn.close()
 
-    def editar_relatorio(self, id_relatorio, id_usuario_atual):    
+    def editar_relatorio(self, id_relatorio):    
         relatorio = self.buscar_id_relatorio(id_relatorio)
 
         if relatorio is None:
-            return None
-        elif id_usuario_atual != relatorio[3]:
-            print("Não é possível editar um relatório que não foi publicado por você.")
             return None
 
         else:
