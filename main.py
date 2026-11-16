@@ -1,12 +1,16 @@
+#Importações
 import sys
 from models.usuario import Usuario
 from models.local import Local
 from dao.usuario_dao import UsuarioDAO
 from dao.relatorio_dao import RelatorioDAO
+import json
 
+#Instanciando os objetos DAO
 user_dao = UsuarioDAO()
 relatorio_dao = RelatorioDAO()
 
+#Funções
 def validar_texto(mensagem): #Função para ler texto
     while True:
         texto = input(mensagem).strip()
@@ -33,18 +37,40 @@ def validar_credenciais(email, senha): #Função para validar email e senha colo
     if "@" not in email or len(email) < 8:
         raise ValueError("O email precisa ter @ e não pode ter menos de 8 caracteres.")
 
-usuario_atual = None
-login = False
-opcao_login = -1
+def exportar_json(): #Função para gerar o relatório de usuários em JSON
+    try:
+        usuarios = user_dao.listar_usuarios()
+        if usuarios is None:
+            raise OSError("Nenhum usuário foi encontrado para a exportação.")
+        else:
+            lista_usuarios = []
+            for usuario in usuarios:
+                dados_usuario = {
+                    "id_usuario": usuario[0],
+                    "username": usuario[1],
+                    "email": usuario[3],
+                    "assinatura": usuario[4],
+                    }
+                lista_usuarios.append(dados_usuario)
+            with open("usuarios_minicity.json","w",encoding="utf-8") as arquivo:
+                json.dump(lista_usuarios, arquivo, ensure_ascii=False, indent=4)
+            print("\nO arquivo 'usuarios_minicity.json' foi gerado com sucesso!")
+            print(f"Foram exportados {len(lista_usuarios)} usuários.")
+
+    except OSError as erro:
+                    print("Ocorreu um erro durante a criação do arquivo: ", erro)    
+
+usuario_atual = None #Variável que definirá o usuário que utilizará o código. Será definida no login
+login = False #Define se o login foi realizado
 
 while not login: #Menu de login, permite a criação de uma conta e o login caso o usuário já possua uma conta
     print("\n=======================================")
     print("Bem-vindo à MiniCity!")
     print("Ainda não possui uma conta? Cadastre-se!")
-    print("1 - Realizar cadastro.")
+    print("1 - Realizar cadastro.") #Opção para fazer o cadastro de uma nova conta
     print("Já possui uma conta? Faça o login!")
-    print("2 - Login.")
-    print("3 - Sair.")
+    print("2 - Login.") #Opção para logar em uma conta já existente
+    print("3 - Sair.") #Sair do sistema sem realizar login
     try:
         opcao_login = int(input("Digite o número da opção que você deseja: "))
     except ValueError:
@@ -419,7 +445,9 @@ while opcao != 0:
                         print("Opção inválida. Digite uma opção válida do menu.")
 
         case 5:
-            print("EM DESENVOLVIMENTO")
+            print("\nEsta opção irá gerar um relatório .json sobre os usuários já cadastrados na MiniCity.")
+            print("Gerando relatório...")
+            exportar_json()
 
         case 0:
             print("Encerrando sistema...")
