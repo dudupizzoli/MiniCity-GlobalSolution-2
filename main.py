@@ -4,11 +4,13 @@ from models.usuario import Usuario
 from models.local import Local
 from dao.usuario_dao import UsuarioDAO
 from dao.relatorio_dao import RelatorioDAO
+from services.noticias_api import NoticiaAPI
 import json
 
 #Instanciando os objetos DAO
 user_dao = UsuarioDAO()
 relatorio_dao = RelatorioDAO()
+noticia_api = NoticiaAPI()
 
 #Funções
 def validar_texto(mensagem): #Função para ler texto
@@ -61,6 +63,7 @@ def exportar_json(): #Função para gerar o relatório de usuários em JSON
                     print("Ocorreu um erro durante a criação do arquivo: ", erro)    
 
 usuario_atual = None #Variável que definirá o usuário que utilizará o código. Será definida no login
+local_atual = None
 login = False #Define se o login foi realizado
 
 while not login: #Menu de login, permite a criação de uma conta e o login caso o usuário já possua uma conta
@@ -140,6 +143,7 @@ while opcao != 0:
                 print("\n======= Menu MiniCity - Geral =======")
                 print("1 - Conhecer a MiniCity.") #Opção para ver algumas informações a respeito da MiniCity
                 print("2 - Ver Planos.") #Opção para ver os planos disponíveis e assinar
+                print("3 - Declarar meu local atual.")
                 print("3 - Voltar.") #Volta ao menu principal
                 try:
                     opcao_geral = int(input("Digite o número da opção que você deseja: "))
@@ -212,6 +216,15 @@ while opcao != 0:
                                 break                              
 
                     case 3:
+                        cidade = validar_texto("Digite a cidade em que você se encontra atualmente: ")
+                        bairro = validar_texto("Digite o bairro em que você se encontra atualmente: ")
+                        endereco = validar_texto("Digite a rua em que você se encontra atualmente: ")
+
+                        local_atual = Local(cidade=cidade, bairro=bairro, endereco=endereco)
+
+                        print("Local declarado com sucesso!")
+
+                    case 4:
                         print("Voltando ao menu anterior...")
                         break
 
@@ -232,7 +245,33 @@ while opcao != 0:
                 except ValueError:
                     print("Opção inválida. Digite apenas números.")
                     continue
-            
+
+                match opcao_mapa:
+                    case 1:
+                        print("Atualmente, você se encontra em: ")
+                        print(local_atual)
+
+                    case 2:
+                        if local_atual is None:
+                            print("É necessário definir seu local atual antes. Faça isso na opção 3 do submenu Geral.")
+                        else:
+                            noticias = noticia_api.buscar_noticias(local_atual._bairro, local_atual._cidade)
+                            if noticias is None:
+                                print("Nenhuma notícia foi encontrada.")
+                            else:
+                                for noticia in noticias:
+                                    print("\n========================")
+                                    print(f"{noticia['title']}")
+                                    print(f"Fonte: {noticia['source']['name']} | {noticia['publishedAt'][:10]}")
+                                    print(f"Link: {noticia['url']}")                    
+
+                    case 6:
+                        print("Voltando ao menu anterior...")
+                        break
+
+                    case _:
+                        print("Opção inválida. Digite uma opção válida do menu.")
+
         case 3:
             while True:  #Submenu do sistema - trata sobre os relatórios enviados pelo usuário | Aqui se encontra um CRUD
                 print("\n======= Menu MiniCity - Relatório Cidadão =======") 
