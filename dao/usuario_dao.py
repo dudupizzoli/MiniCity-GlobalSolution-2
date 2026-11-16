@@ -49,7 +49,7 @@ class UsuarioDAO:
 
         except oracledb.Error as erro:
             conn.rollback()
-            print("\nHouve um erro: ", erro)
+            print(f"\nHouve um erro: {erro}")
             return False
     
         finally:
@@ -74,7 +74,7 @@ class UsuarioDAO:
                 return usuarios
 
         except oracledb.Error as erro:
-            print("Houve um erro: ", erro)
+            print(f"\nHouve um erro: {erro}")
                 
         finally:
             cursor.close()
@@ -98,7 +98,7 @@ class UsuarioDAO:
                 return usuario              
 
         except oracledb.Error as erro:
-            print("Houve um erro: ", erro)
+            print(f"\nHouve um erro: {erro}")
                         
         finally:
             cursor.close()
@@ -149,7 +149,7 @@ class UsuarioDAO:
                     return self.buscar_nome_usuario(username)
                 except oracledb.Error as erro:
                     conn.rollback()
-                    print("Houve um erro: ", erro)
+                    print(f"\nHouve um erro: {erro}")
                 finally:
                     cursor.close()
                     conn.close()
@@ -188,7 +188,7 @@ class UsuarioDAO:
                     return True
                 except oracledb.Error as erro:
                     conn.rollback()
-                    print("Houve um erro: ", erro)
+                    print(f"\nHouve um erro: {erro}")
                     return False
 
                 finally:
@@ -227,7 +227,7 @@ class UsuarioDAO:
             return usuario
 
         except oracledb.Error as erro:
-            print("Houve um erro: ", erro)
+            print(f"\nHouve um erro: {erro}")
             return None
         
         finally:
