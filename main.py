@@ -95,12 +95,11 @@ opcao = -1
 
 while opcao != 0:
     print("\n===== Menu MiniCity =====")
-    print("1 - Conhecer a MiniCity.") #Opção para ver algumas informações a respeito da MiniCity
-    print("2 - Ver Planos.") #Opção para ver os planos disponíveis e assinar
-    print("3 - Consultar notícias e estabelecimentos.") #Submenu para consultar notícias e estabelecimentos por perto, além de buscar por locais
-    print("4 - Escrever relatório.") #Submenu para escrever relatórios
-    print("5 - Central do usuário.") #Submenu do usuário
-    print("6 - Criar JSON.") #Opção para criar um relatório de usuários em JSON
+    print("1 - Geral") #Submenu com opções gerais
+    print("2 - Consultar notícias e estabelecimentos.") #Submenu para consultar notícias e estabelecimentos por perto, além de buscar por locais
+    print("3 - Escrever relatório.") #Submenu para escrever relatórios
+    print("4 - Central do usuário.") #Submenu do usuário
+    print("5 - Criar JSON.") #Opção para criar um relatório de usuários em JSON
     print("0 - Sair.") #Saída do sistema
     try:
         opcao = int(input("Digite o número da opção que você deseja: "))
@@ -110,11 +109,88 @@ while opcao != 0:
 
     match opcao:
         case 1:
-            print("Bem-vindo(a) à MiniCity!!! \n A MiniCity é uma startup criada em Novembro de 2026 baseada nos famosos mini mapas de videogames. Temos intenção de ajudar na distribuição de notícias geograficamente relevantes para a população. Focamos em ajudar os usuários a conhecer melhor o seu redor, além de incentivar a prática da cidadania. ")
-            print("\nAtualmente, nossos projetos estão voltados para o desenvolvimento de mapas que exibirão notícias, relatórios de cidadãos e estabelecimentos bem avaliados de forma geolocalizada, facilitando o compartilhamento de notícias relevantes para a rotina das pessoas.")
-            print("\nAlém de simlesmente exibir notícias, a MiniCity deseja incentivar a participação do cidadão na sociedade. Os usuários poderão publicar relatórios falando sobre ocorrências como alagamentos ou lotações para ajudar outros usuários e moradores da região.")
+                print("\n======= Menu MiniCity - Geral =======")
+                print("1 - Conhecer a MiniCity.") #Opção para ver algumas informações a respeito da MiniCity
+                print("2 - Ver Planos.") #Opção para ver os planos disponíveis e assinar
+                print("3 - Voltar.") #Volta ao menu principal
+                try:
+                    opcao_geral = int(input("Digite o número da opção que você deseja: "))
+                except ValueError:
+                    print("Opção inválida. Digite apenas números.")
+                    continue
+                match opcao_geral:
+                    case 1:
+                        print("Bem-vindo(a) à MiniCity!!! \n A MiniCity é uma startup criada em Novembro de 2026 baseada nos famosos mini mapas de videogames. Temos intenção de ajudar na distribuição de notícias geograficamente relevantes para a população. Focamos em ajudar os usuários a conhecer melhor o seu redor, além de incentivar a prática da cidadania. ")
+                        print("\nAtualmente, nossos projetos estão voltados para o desenvolvimento de mapas que exibirão notícias, relatórios de cidadãos e estabelecimentos bem avaliados de forma geolocalizada, facilitando o compartilhamento de notícias relevantes para a rotina das pessoas.")
+                        print("\nAlém de simlesmente exibir notícias, a MiniCity deseja incentivar a participação do cidadão na sociedade. Os usuários poderão publicar relatórios falando sobre ocorrências como alagamentos ou lotações para ajudar outros usuários e moradores da região.")
+            
+                    case 2:
+                        print("\nA MiniCity possui 3 planos diferentes: ")
+                        print("""\nPlano Padrão: O plano padrão é gratuito e permite a utilização do aplicativo com todas as funcionalidades básicas, incluindo: 
+                        Utilização dos mapas do aplicativo; 
+                        Serviço de relatório cidadão; 
+                        Salvamento de locais; 
+                        Envio de notificações; 
+                        Acompanhamento de notícias nacionais.""")
+                        print("""\nPlano Empreendedor: O plano empreendedor é voltado para comerciantes que desejam impulsionar seus estabelecimentos dentro dos mapas da MiniCity, garantindo funcionalidades como: 
+                        Todos os benefícios do plano básico;
+                        Seu estabelecimento será impulsionado no mapa da Mini City, permitindo que ele apareça a distâncias maiores e para mais pessoas;
+                        Seu estabelecimento ganhará um selo especial no mapa;
+                        Seu app da MiniCity não terá mais anúncios.""")
+                        print("""\nPlano Empreendedor+: É a evolução do plano empreendedor, potencializando seus efeitos e garantindo benefícios como: 
+                        Todos os benefícios do plano empreendedor;
+                        Seu estabelecimento ganhará um selo de maior nível no mapa;
+                        Você poderá impulsionar mais de um estabelecimento.""")
 
-        case 3:
+                        print(f"Seu plano atual é: {usuario_atual._assinatura}")
+
+                        print("Deseja alterar seu plano? Se sim, digite o número do plano que você deseja.")
+                        print("1 - Padrão - Gratuito")
+                        print("2 - Empreendedor - R$50,00 mensais")
+                        print("3 - Empreendedor+ - R$75,00 mensais")
+                        print("4 - Não alterar")
+                        try:
+                            opcao_plano = int(input("Digite o número da opção que você deseja: "))
+                        except ValueError:
+                            print("Opção inválida. Digite apenas números.")
+                            continue
+                        match opcao_plano:
+                            case 1:
+                                if usuario_atual._assinatura == "Padrão":
+                                    print("Seu plano já é o padrão. Ele não foi alterado.")
+                                else:
+                                    usuario_atual._assinatura = "Padrão"
+                                    user_dao.alterar_plano(usuario_atual._id_usuario, usuario_atual._assinatura)
+                                    print("Plano atual: Padrão")
+
+                            case 2:
+                                if usuario_atual._assinatura == "Empreendedor":
+                                    print("Seu plano já é o empreendedor. Ele não foi alterado.")
+                                else:
+                                    usuario_atual._assinatura = "Empreendedor"
+                                    user_dao.alterar_plano(usuario_atual._id_usuario, usuario_atual._assinatura)
+                                    print("Plano atual: Empreendedor")
+
+                            case 3:
+                                if usuario_atual._assinatura == "Empreendedor+":
+                                    print("Seu plano já é o empreendedor+. Ele não foi alterado.")
+                                else:
+                                    usuario_atual._assinatura = "Empreendedor+"
+                                    user_dao.alterar_plano(usuario_atual._id_usuario, usuario_atual._assinatura)
+                                    print("Plano atual: Empreendedor+")  
+
+                            case 4:
+                                print("Voltando ao menu anterior...")
+                                break                              
+
+                    case 3:
+                        print("Voltando ao menu anterior...")
+                        break
+
+                    case _:
+                        print("Opção inválida. Digite uma opção válida do menu.")
+
+        case 2:
             while True:    #Submenu do sistema - trata sobre as consultas dos mapas 
                 print("\n======= Menu MiniCity - Mapa =======")
                 print("1 - Ver meu local.") # Mostra o local em que o usuário se encontra atualmente
@@ -129,10 +205,10 @@ while opcao != 0:
                     print("Opção inválida. Digite apenas números.")
                     continue
             
-        case 4:
+        case 3:
             print("EM DESENVOLVIMENTO")
 
-        case 5:
+        case 4:
             while True:    #Submenu do sistema - trata sobre as contas do usuário | Aqui se encontra um CRUD
                 print("\n======= Menu MiniCity - Usuário =======")
                 print("1 - Conferir conta atual.") #Confere a conta logada atualmente
@@ -249,7 +325,7 @@ while opcao != 0:
                     case _:
                         print("Opção inválida. Digite uma opção válida do menu.")
 
-        case 6:
+        case 5:
             print("EM DESENVOLVIMENTO")
 
         case 0:

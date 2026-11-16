@@ -233,3 +233,27 @@ class UsuarioDAO:
         finally:
             cursor.close()
             conn.close()
+
+    def alterar_plano(self, id_usuario, assinatura):
+        conn = self.conexao.conectar()
+        if conn is None:
+               print("Erro ao conectar ao Oracle.")
+               return False
+        
+        cursor = conn.cursor()
+
+        sql = """update usuarios_minicity 
+        set assinatura = :assinatura
+        where id_usuario = :id_usuario"""
+
+        try:
+            cursor.execute(sql, assinatura = assinatura, id_usuario = id_usuario)
+            conn.commit()
+            print("Plano alterado com sucesso!")
+
+        except oracledb.Error as erro:
+            conn.rollback()
+            print(f"\nHouve um erro: {erro}")
+        finally:
+            cursor.close()
+            conn.close()
