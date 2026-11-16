@@ -4,8 +4,6 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-    #FAZER ESSE DAO
-    #Talvez juntar a opção de ver os planos e o "sobre" em uma opção "Geral"
 class RelatorioDAO:
     def __init__(self):
         self.conexao = Conexaodb(
@@ -144,13 +142,10 @@ class RelatorioDAO:
                 cursor.close()
                 conn.close()
 
-    def excluir_relatorio(self, id_relatorio, id_usuario_atual):
+    def excluir_relatorio(self, id_relatorio):
         relatorio = self.buscar_id_relatorio(id_relatorio)
 
         if relatorio is None:
-            return None
-        elif id_usuario_atual != relatorio[3]:
-            print("Não é possível excluir um relatório que não foi publicado por você.")
             return None
 
         else:
