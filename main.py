@@ -45,23 +45,23 @@ def validar_credenciais(email, senha): #Função para validar email e senha colo
 
 def exportar_json(): #Função para gerar o relatório de usuários em JSON
     try:
-        usuarios = user_dao.listar_usuarios()
-        if usuarios is None:
-            raise OSError("Nenhum usuário foi encontrado para a exportação.")
+        historico = locais_dao.listar_locais_buscados()
+        if historico is None:
+            raise OSError("O histórico de locais buscados desta conta não foi encontrado.")
         else:
-            lista_usuarios = []
-            for usuario in usuarios:
-                dados_usuario = {
-                    "id_usuario": usuario[0],
-                    "username": usuario[1],
-                    "email": usuario[3],
-                    "assinatura": usuario[4],
+            lista_historico = []
+            for local in historico:
+                dados_local = {
+                    "id_local": local[0],
+                    "cidade": local[1],
+                    "bairro": local[2],
+                    "id_usuario": usuario[3],
                     }
-                lista_usuarios.append(dados_usuario)
-            with open("usuarios_minicity.json","w",encoding="utf-8") as arquivo:
-                json.dump(lista_usuarios, arquivo, ensure_ascii=False, indent=4)
-            print("\nO arquivo 'usuarios_minicity.json' foi gerado com sucesso!")
-            print(f"Foram exportados {len(lista_usuarios)} usuários.")
+                lista_historico.append(dados_local)
+            with open("historico_minicity.json","w",encoding="utf-8") as arquivo:
+                json.dump(lista_historico, arquivo, ensure_ascii=False, indent=4)
+            print("\nO arquivo 'historico_minicity.json' foi gerado com sucesso!")
+            print(f"Foram exportados {len(lista_historico)} locais.")
 
     except OSError as erro:
                     print("Ocorreu um erro durante a criação do arquivo: ", erro)    
@@ -134,7 +134,7 @@ while opcao != 0:
     print("2 - Consultar notícias e estabelecimentos.") #Submenu para consultar notícias próximas e estabelecimentos, além de buscar por locais
     print("3 - Escrever relatório cidadão.") #Submenu para escrever relatórios
     print("4 - Central do usuário.") #Submenu do usuário
-    print("5 - Criar JSON.") #Opção para criar um relatório de usuários em JSON
+    print("5 - Criar JSON.") #Opção para criar um relatório do histórico de locais buscados em JSON
     print("0 - Sair.") #Saída do sistema
     try:
         opcao = int(input("Digite o número da opção que você deseja: "))
@@ -532,7 +532,7 @@ Você poderá impulsionar mais de um estabelecimento.""")
                         print("Opção inválida. Digite uma opção válida do menu.")
 
         case 5:
-            print("\nEsta opção irá gerar um relatório .json sobre os usuários já cadastrados na MiniCity.")
+            print("\nEsta opção irá gerar um relatório .json sobre o histórico de locais que você buscou na MiniCity.")
             print("Gerando relatório...")
             exportar_json()
 
