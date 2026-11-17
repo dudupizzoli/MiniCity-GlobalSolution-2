@@ -4,12 +4,14 @@ from models.usuario import Usuario
 from models.local import Local
 from dao.usuario_dao import UsuarioDAO
 from dao.relatorio_dao import RelatorioDAO
+from dao.estabelecimento_dao import EstabelecimentoDAO
 from services.noticias_api import NoticiaAPI
 import json
 
 #Instanciando os objetos DAO
 user_dao = UsuarioDAO()
 relatorio_dao = RelatorioDAO()
+estabelecimento_dao = EstabelecimentoDAO
 noticia_api = NoticiaAPI()
 
 #Funções
@@ -236,7 +238,7 @@ while opcao != 0:
                 print("\n======= Menu MiniCity - Mapa =======")
                 print("1 - Ver meu local.") # Mostra o local em que o usuário se encontra atualmente
                 print("2 - Ver notícias perto de mim.") # Mostra notícias que ocorreram perto do local em que o usuário se encontra atualmente
-                print("3 - Ver estabelecimentos e comércios perto de mim.") # Mostra estabelecimentos perto do local em que o usuário se encontra atualmente
+                print("3 - Ver estabelecimentos e comércios recomendados.") # Mostra estabelecimentos perto do local em que o usuário se encontra atualmente
                 print("4 - Buscar local.") # Busca um local para o usuário ver as notícias
                 print("5 - Ver histórico de locais buscados.") # Mostra o histórico de locais que o usuário buscou
                 print("6 - Voltar.") #Volta ao menu principal
@@ -248,8 +250,11 @@ while opcao != 0:
 
                 match opcao_mapa:
                     case 1:
-                        print("Atualmente, você se encontra em: ")
-                        print(local_atual)
+                        if local_atual is None:
+                            print("É necessário definir seu local atual antes. Faça isso na opção 3 do submenu Geral.")
+                        else:                        
+                            print("Atualmente, você se encontra em: ")
+                            print(local_atual)
 
                     case 2:
                         if local_atual is None:
@@ -263,7 +268,20 @@ while opcao != 0:
                                     print("\n========================")
                                     print(f"{noticia['title']}")
                                     print(f"Fonte: {noticia['source']['name']} | {noticia['publishedAt'][:10]}")
-                                    print(f"Link: {noticia['url']}")                    
+                                    print(f"Link: {noticia['url']}")     
+
+                    case 3:
+                        estabelecimentos = estabelecimento_dao.listar_estabelecimentos()
+                        if estabelecimentos is None:
+                            print("Nenhum estabelecimento foi encontrado.")
+                        else:
+                            for estabelecimento in estabelecimentos:
+                                print("\n========================")
+                                print(f"ID do estabelecimento: {estabelecimento[0]}")
+                                print(f"Nome do estabelecimento: {estabelecimento[1]}")
+                                print(f"Bairro: {estabelecimento[3]}")
+                                print(f"Logradouro: {estabelecimento[2]}")
+                                print(f"Link: {estabelecimento[4]}")
 
                     case 6:
                         print("Voltando ao menu anterior...")
