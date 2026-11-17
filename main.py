@@ -144,103 +144,103 @@ while opcao != 0:
 
     match opcao:
         case 1:
-                print("\n======= Menu MiniCity - Geral =======")
-                print("1 - Conhecer a MiniCity.") #Opção para ver algumas informações a respeito da MiniCity
-                print("2 - Ver Planos.") #Opção para ver os planos disponíveis e assinar
-                print("3 - Declarar meu local atual.")
-                print("3 - Voltar.") #Volta ao menu principal
-                try:
-                    opcao_geral = int(input("Digite o número da opção que você deseja: "))
-                except ValueError:
-                    print("Opção inválida. Digite apenas números.")
-                    continue
-                match opcao_geral:
-                    case 1:
-                        print("Bem-vindo(a) à MiniCity!!! \n A MiniCity é uma startup criada em Novembro de 2026 baseada nos famosos mini mapas de videogames. Temos intenção de ajudar na distribuição de notícias geograficamente relevantes para a população. Focamos em ajudar os usuários a conhecer melhor o seu redor, além de incentivar a prática da cidadania. ")
-                        print("\nAtualmente, nossos projetos estão voltados para o desenvolvimento de mapas que exibirão notícias, relatórios de cidadãos e estabelecimentos bem avaliados de forma geolocalizada, facilitando o compartilhamento de notícias relevantes para a rotina das pessoas.")
-                        print("\nAlém de simlesmente exibir notícias, a MiniCity deseja incentivar a participação do cidadão na sociedade. Os usuários poderão publicar relatórios falando sobre ocorrências como alagamentos ou lotações para ajudar outros usuários e moradores da região.")
-            
-                    case 2:
-                        print("\nA MiniCity possui 3 planos diferentes: ")
-                        print("""\nPlano Padrão: O plano padrão é gratuito e permite a utilização do aplicativo com todas as funcionalidades básicas, incluindo: 
-                        Utilização dos mapas do aplicativo; 
-                        Serviço de relatório cidadão; 
-                        Salvamento de locais; 
-                        Envio de notificações; 
-                        Acompanhamento de notícias nacionais.""")
-                        print("""\nPlano Empreendedor: O plano empreendedor é voltado para comerciantes que desejam impulsionar seus estabelecimentos dentro dos mapas da MiniCity, garantindo funcionalidades como: 
-                        Todos os benefícios do plano básico;
-                        Seu estabelecimento será impulsionado no mapa da Mini City, permitindo que ele apareça a distâncias maiores e para mais pessoas;
-                        Seu estabelecimento ganhará um selo especial no mapa;
-                        Seu app da MiniCity não terá mais anúncios.""")
-                        print("""\nPlano Empreendedor+: É a evolução do plano empreendedor, potencializando seus efeitos e garantindo benefícios como: 
-                        Todos os benefícios do plano empreendedor;
-                        Seu estabelecimento ganhará um selo de maior nível no mapa;
-                        Você poderá impulsionar mais de um estabelecimento.""")
+                while True:
+                    print("\n======= Menu MiniCity - Geral =======")
+                    print("1 - Conhecer a MiniCity.") #Opção para ver algumas informações a respeito da MiniCity
+                    print("2 - Ver Planos.") #Opção para ver os planos disponíveis e assinar
+                    print("3 - Declarar meu local atual.")
+                    print("4 - Voltar.") #Volta ao menu principal
+                    try:
+                        opcao_geral = int(input("Digite o número da opção que você deseja: "))
+                    except ValueError:
+                        print("Opção inválida. Digite apenas números.")
+                        continue
+                    match opcao_geral:
+                        case 1:
+                            print("Bem-vindo(a) à MiniCity!!! \n A MiniCity é uma startup criada em Novembro de 2026 baseada nos famosos mini mapas de videogames. Temos intenção de ajudar na distribuição de notícias geograficamente relevantes para a população. Focamos em ajudar os usuários a conhecer melhor o seu redor, além de incentivar a prática da cidadania. ")
+                            print("\nAtualmente, nossos projetos estão voltados para o desenvolvimento de mapas que exibirão notícias, relatórios de cidadãos e estabelecimentos bem avaliados de forma geolocalizada, facilitando o compartilhamento de notícias relevantes para a rotina das pessoas.")
+                            print("\nAlém de simplesmente exibir notícias, a MiniCity deseja incentivar a participação do cidadão na sociedade. Os usuários poderão publicar relatórios falando sobre ocorrências como alagamentos ou lotações para ajudar outros usuários e moradores da região.")
+                
+                        case 2:
+                            print("\nA MiniCity possui 3 planos diferentes: ")
+                            print("""\nPlano Padrão: O plano padrão é gratuito e permite a utilização do aplicativo com todas as funcionalidades básicas, incluindo: 
+                            Utilização dos mapas do aplicativo; 
+                            Serviço de relatório cidadão; 
+                            Salvamento de locais; 
+                            Envio de notificações; 
+                            Acompanhamento de notícias nacionais.""")
+                            print("""\nPlano Empreendedor: O plano empreendedor é voltado para comerciantes que desejam impulsionar seus estabelecimentos dentro dos mapas da MiniCity, garantindo funcionalidades como: 
+                            Todos os benefícios do plano básico;
+                            Seu estabelecimento será impulsionado no mapa da Mini City, permitindo que ele apareça a distâncias maiores e para mais pessoas;
+                            Seu estabelecimento ganhará um selo especial no mapa;
+                            Seu app da MiniCity não terá mais anúncios.""")
+                            print("""\nPlano Empreendedor+: É a evolução do plano empreendedor, potencializando seus efeitos e garantindo benefícios como: 
+                            Todos os benefícios do plano empreendedor;
+                            Seu estabelecimento ganhará um selo de maior nível no mapa;
+                            Você poderá impulsionar mais de um estabelecimento.""")
 
-                        print(f"Seu plano atual é: {usuario_atual._assinatura}")
+                            print(f"Seu plano atual é: {usuario_atual._assinatura}")
 
-                        print("Deseja alterar seu plano? Se sim, digite o número do plano que você deseja.")
-                        print("1 - Padrão - Gratuito")
-                        print("2 - Empreendedor - R$50,00 mensais")
-                        print("3 - Empreendedor+ - R$75,00 mensais")
-                        print("4 - Não alterar")
-                        try:
-                            opcao_plano = int(input("Digite o número da opção que você deseja: "))
-                        except ValueError:
-                            print("Opção inválida. Digite apenas números.")
-                            continue
-                        match opcao_plano:
-                            case 1:
-                                if usuario_atual._assinatura == "Padrão":
-                                    print("Seu plano já é o padrão. Ele não foi alterado.")
-                                else:
-                                    usuario_atual._assinatura = "Padrão"
-                                    user_dao.alterar_plano(usuario_atual._id_usuario, usuario_atual._assinatura)
-                                    print("Plano atual: Padrão")
+                            print("Deseja alterar seu plano? Se sim, digite o número do plano que você deseja.")
+                            print("1 - Padrão - Gratuito")
+                            print("2 - Empreendedor - R$50,00 mensais")
+                            print("3 - Empreendedor+ - R$75,00 mensais")
+                            print("4 - Não alterar")
+                            try:
+                                opcao_plano = int(input("Digite o número da opção que você deseja: "))
+                            except ValueError:
+                                print("Opção inválida. Digite apenas números.")
+                                continue
+                            match opcao_plano:
+                                case 1:
+                                    if usuario_atual._assinatura == "Padrão":
+                                        print("Seu plano já é o padrão. Ele não foi alterado.")
+                                    else:
+                                        usuario_atual._assinatura = "Padrão"
+                                        user_dao.alterar_plano(usuario_atual._id_usuario, usuario_atual._assinatura)
+                                        print("Plano atual: Padrão")
 
-                            case 2:
-                                if usuario_atual._assinatura == "Empreendedor":
-                                    print("Seu plano já é o empreendedor. Ele não foi alterado.")
-                                else:
-                                    usuario_atual._assinatura = "Empreendedor"
-                                    user_dao.alterar_plano(usuario_atual._id_usuario, usuario_atual._assinatura)
-                                    print("Plano atual: Empreendedor")
+                                case 2:
+                                    if usuario_atual._assinatura == "Empreendedor":
+                                        print("Seu plano já é o empreendedor. Ele não foi alterado.")
+                                    else:
+                                        usuario_atual._assinatura = "Empreendedor"
+                                        user_dao.alterar_plano(usuario_atual._id_usuario, usuario_atual._assinatura)
+                                        print("Plano atual: Empreendedor")
 
-                            case 3:
-                                if usuario_atual._assinatura == "Empreendedor+":
-                                    print("Seu plano já é o empreendedor+. Ele não foi alterado.")
-                                else:
-                                    usuario_atual._assinatura = "Empreendedor+"
-                                    user_dao.alterar_plano(usuario_atual._id_usuario, usuario_atual._assinatura)
-                                    print("Plano atual: Empreendedor+")  
+                                case 3:
+                                    if usuario_atual._assinatura == "Empreendedor+":
+                                        print("Seu plano já é o empreendedor+. Ele não foi alterado.")
+                                    else:
+                                        usuario_atual._assinatura = "Empreendedor+"
+                                        user_dao.alterar_plano(usuario_atual._id_usuario, usuario_atual._assinatura)
+                                        print("Plano atual: Empreendedor+")  
 
-                            case 4:
-                                print("Voltando ao menu anterior...")
-                                break                              
+                                case 4:
+                                    print("Voltando ao menu anterior...")                           
 
-                    case 3:
-                        cidade = validar_texto("Digite a cidade em que você se encontra atualmente: ")
-                        bairro = validar_texto("Digite o bairro em que você se encontra atualmente: ")
-                        endereco = validar_texto("Digite a rua em que você se encontra atualmente: ")
+                        case 3:
+                            cidade = validar_texto("Digite a cidade em que você se encontra atualmente: ")
+                            bairro = validar_texto("Digite o bairro em que você se encontra atualmente: ")
+                            endereco = validar_texto("Digite a rua em que você se encontra atualmente: ")
 
-                        local_atual = Local(cidade=cidade, bairro=bairro, endereco=endereco)
+                            local_atual = Local(cidade=cidade, bairro=bairro, endereco=endereco)
 
-                        print("Local declarado com sucesso!")
+                            print("Local declarado com sucesso!")
 
-                    case 4:
-                        print("Voltando ao menu anterior...")
-                        break
+                        case 4:
+                            print("Voltando ao menu anterior...")
+                            break
 
-                    case _:
-                        print("Opção inválida. Digite uma opção válida do menu.")
+                        case _:
+                            print("Opção inválida. Digite uma opção válida do menu.")
 
         case 2:
             while True:    #Submenu do sistema - trata sobre as consultas dos mapas 
                 print("\n======= Menu MiniCity - Mapa =======")
                 print("1 - Ver meu local.") # Mostra o local em que o usuário se encontra atualmente
                 print("2 - Ver notícias perto de mim.") # Mostra notícias que ocorreram perto do local em que o usuário se encontra atualmente
-                print("3 - Ver estabelecimentos e comércios recomendados.") # Mostra estabelecimentos perto do local em que o usuário se encontra atualmente
+                print("3 - Ver estabelecimentos e comércios recomendados.") # Mostra estabelecimentos recomendados
                 print("4 - Buscar local.") # Busca um local para o usuário ver as notícias
                 print("5 - Ver histórico de locais buscados.") # Mostra o histórico de locais que o usuário buscou
                 print("6 - Voltar.") #Volta ao menu principal
@@ -366,7 +366,7 @@ while opcao != 0:
                         relatorio_procurado = ler_inteiro("Digite o ID do relatório que você deseja buscar: ")
                         relatorio = relatorio_dao.buscar_id_relatorio(relatorio_procurado)
                         if relatorio is None:
-                            print("Nenhum relatório foi encontrada.")
+                            print("Nenhum relatório foi encontrado.")
                         else:
                             print("\n========================")
                             print(f"ID do relatório: {relatorio[0]}")
@@ -394,7 +394,7 @@ while opcao != 0:
                         relatorio_excluido = ler_inteiro("Digite o ID do relatório que você deseja excluir: ")
                         relatorio = relatorio_dao.buscar_id_relatorio(relatorio_excluido)
                         if relatorio is None:
-                            print("Nenhum relatório foi encontrada.")
+                            print("Nenhum relatório foi encontrado.")
 
                         elif relatorio[3] != usuario_atual._id_usuario:
                             print("Não é possível excluir os relatórios de outros usuários.")

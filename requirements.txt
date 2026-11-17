@@ -1,0 +1,4 @@
+# Bibliotecas usadas no projeto:
+- oracledb
+- python-dotenv
+- requests

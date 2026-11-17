@@ -1,5 +1,5 @@
 import oracledb
-from conexaodb import Conexaodb
+from dao.conexaodb import Conexaodb
 import os
 from dotenv import load_dotenv
 

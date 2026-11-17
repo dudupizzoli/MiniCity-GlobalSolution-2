@@ -9,6 +9,11 @@ class NoticiaAPI:
 
     def buscar_noticias(self, bairro, cidade, quantidade=5):
         termo = f'"{bairro}" AND "{cidade}"' if bairro else f'"{cidade}"'
+        chave = os.getenv("NEWS_API_CHAVE")
+        if chave is None or chave == "":
+            print("\nNão foi possível realizar a busca de notícias pois a chave da API não foi localizada.")
+            return None
+
         parametros = {
             "q": termo,
             "language": "pt",
@@ -30,4 +35,8 @@ class NoticiaAPI:
         
         except requests.exceptions.RequestException as erro:
             print(f"\nNão foi possível acessar a API: {erro}")
+            return None
+
+        except ValueError as erro:
+            print(f"\nA resposta da API veio em um formato inesperado: {erro}")
             return None
