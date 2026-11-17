@@ -43,7 +43,7 @@ def validar_credenciais(email, senha): #Função para validar email e senha colo
     if "@" not in email or len(email) < 8:
         raise ValueError("O email precisa ter @ e não pode ter menos de 8 caracteres.")
 
-def exportar_json(): #Função para gerar o relatório de usuários em JSON
+def exportar_json(): #Função para gerar o relatório de histórico de locais em JSON
     try:
         historico = locais_dao.listar_locais_buscados()
         if historico is None:
