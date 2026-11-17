@@ -15,18 +15,18 @@ class LocaisDAO:
             service_name=os.getenv("DB_SERVICE_NAME")
         )
 
-    def gravar_local_buscado(self, cidade, bairro):
+    def gravar_local_buscado(self, cidade, bairro, id_usuario):
         conn = self.conexao.conectar()
         if conn is None:
             print("Erro ao conectar ao Oracle.")
             return False
 
         cursor = conn.cursor()
-        sql = """insert into locais_buscados_minicity (cidade, bairro) 
-        values (:cidade, :bairro)"""
+        sql = """insert into locais_buscados_minicity (cidade, bairro, id_usuario) 
+        values (:cidade, :bairro, :id_usuario)"""
 
         try:
-            cursor.execute(sql, cidade=cidade, bairro=bairro)
+            cursor.execute(sql, cidade=cidade, bairro=bairro, id_usuario=id_usuario)
             conn.commit()
 
         except oracledb.Error as erro:
@@ -37,17 +37,19 @@ class LocaisDAO:
             cursor.close()
             conn.close()
 
-    def listar_locais_buscados(self):
+    def listar_locais_buscados(self, id_usuario):
         conn = self.conexao.conectar()
         if conn is None:
             print("Erro ao conectar ao Oracle.")
             return None
 
         cursor = conn.cursor()
-        sql = """select id_local, cidade, bairro from locais_buscados_minicity order by id_local"""
+        sql = """select id_local, cidade, bairro, id_usuario from locais_buscados_minicity 
+        where id_usuario = :id_usuario 
+        order by id_local"""
 
         try:
-            cursor.execute(sql)
+            cursor.execute(sql, id_usuario=id_usuario)
             historico = cursor.fetchall()
             if len(historico) == 0:
                 return None

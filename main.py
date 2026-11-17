@@ -5,13 +5,15 @@ from models.local import Local
 from dao.usuario_dao import UsuarioDAO
 from dao.relatorio_dao import RelatorioDAO
 from dao.estabelecimento_dao import EstabelecimentoDAO
+from dao.locais_dao import LocaisDAO
 from services.noticias_api import NoticiaAPI
 import json
 
 #Instanciando os objetos DAO
 user_dao = UsuarioDAO()
 relatorio_dao = RelatorioDAO()
-estabelecimento_dao = EstabelecimentoDAO
+estabelecimento_dao = EstabelecimentoDAO()
+locais_dao = LocaisDAO()
 noticia_api = NoticiaAPI()
 
 #Funções
@@ -282,6 +284,34 @@ while opcao != 0:
                                 print(f"Bairro: {estabelecimento[3]}")
                                 print(f"Logradouro: {estabelecimento[2]}")
                                 print(f"Link: {estabelecimento[4]}")
+
+                    case 4:
+                        cidade = validar_texto("Digite a cidade que você deseja buscar: ")
+                        bairro = validar_texto("Digite o bairro que você deseja buscar: ")
+                        locais_dao.gravar_local_buscado(cidade, bairro, usuario_atual._id_usuario)
+                        noticias = noticia_api.buscar_noticias(bairro, cidade)
+                        if noticias is None:
+                            print("Nenhuma notícia foi encontrada.")
+                        else:
+                            for noticia in noticias:
+                                print("\n========================")
+                                print(f"{noticia['title']}")
+                                print(f"Fonte: {noticia['source']['name']} | {noticia['publishedAt'][:10]}")
+                                print(f"Link: {noticia['url']}")   
+
+                    case 5:
+                        historico = locais_dao.listar_locais_buscados(usuario_atual._id_usuario)
+                        if historico is None:
+                            print("O histórico não pôde ser recuperado. Confira se você já realizou uma busca.")
+                        else: 
+                            print("Apenas você pode ver seu histórico.")
+                            for local in historico:
+                                print("\n========================")
+                                print(f"ID do usuário: {local[3]}")
+                                print(f"ID do local: {local[0]}")
+                                print(f"Cidade: {local[1]}")
+                                print(f"Bairro: {local[2]}")
+
 
                     case 6:
                         print("Voltando ao menu anterior...")
