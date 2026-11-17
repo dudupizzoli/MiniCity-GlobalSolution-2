@@ -131,7 +131,7 @@ opcao = -1
 while opcao != 0:
     print("\n===== Menu MiniCity =====")
     print("1 - Geral") #Submenu com opções gerais
-    print("2 - Consultar notícias e estabelecimentos.") #Submenu para consultar notícias e estabelecimentos por perto, além de buscar por locais
+    print("2 - Consultar notícias e estabelecimentos.") #Submenu para consultar notícias próximas e estabelecimentos, além de buscar por locais
     print("3 - Escrever relatório cidadão.") #Submenu para escrever relatórios
     print("4 - Central do usuário.") #Submenu do usuário
     print("5 - Criar JSON.") #Opção para criar um relatório de usuários em JSON
