@@ -7,7 +7,7 @@ class Local:
 
     #Método para exibir o objeto Local
     def __str__(self):
-        return f" Cidade: {self._cidade} | Bairro: {self._bairro} | \nEndereço: {self._endereco}"
+        return f"Cidade: {self._cidade} | Bairro: {self._bairro} | \nEndereço: {self._endereco}"
 
 
 

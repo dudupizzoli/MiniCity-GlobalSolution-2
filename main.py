@@ -157,27 +157,27 @@ while opcao != 0:
                         continue
                     match opcao_geral:
                         case 1:
-                            print("Bem-vindo(a) à MiniCity!!! \n A MiniCity é uma startup criada em Novembro de 2026 baseada nos famosos mini mapas de videogames. Temos intenção de ajudar na distribuição de notícias geograficamente relevantes para a população. Focamos em ajudar os usuários a conhecer melhor o seu redor, além de incentivar a prática da cidadania. ")
+                            print("Bem-vindo(a) à MiniCity!!! \nA MiniCity é uma startup criada em Novembro de 2026 baseada nos famosos mini mapas de videogames. Temos intenção de ajudar na distribuição de notícias geograficamente relevantes para a população. Focamos em ajudar os usuários a conhecer melhor o seu redor, além de incentivar a prática da cidadania. ")
                             print("\nAtualmente, nossos projetos estão voltados para o desenvolvimento de mapas que exibirão notícias, relatórios de cidadãos e estabelecimentos bem avaliados de forma geolocalizada, facilitando o compartilhamento de notícias relevantes para a rotina das pessoas.")
                             print("\nAlém de simplesmente exibir notícias, a MiniCity deseja incentivar a participação do cidadão na sociedade. Os usuários poderão publicar relatórios falando sobre ocorrências como alagamentos ou lotações para ajudar outros usuários e moradores da região.")
                 
                         case 2:
                             print("\nA MiniCity possui 3 planos diferentes: ")
                             print("""\nPlano Padrão: O plano padrão é gratuito e permite a utilização do aplicativo com todas as funcionalidades básicas, incluindo: 
-                            Utilização dos mapas do aplicativo; 
-                            Serviço de relatório cidadão; 
-                            Salvamento de locais; 
-                            Envio de notificações; 
-                            Acompanhamento de notícias nacionais.""")
+Utilização dos mapas do aplicativo; 
+Serviço de relatório cidadão; 
+Salvamento de locais; 
+Envio de notificações; 
+Acompanhamento de notícias nacionais.""")
                             print("""\nPlano Empreendedor: O plano empreendedor é voltado para comerciantes que desejam impulsionar seus estabelecimentos dentro dos mapas da MiniCity, garantindo funcionalidades como: 
-                            Todos os benefícios do plano básico;
-                            Seu estabelecimento será impulsionado no mapa da Mini City, permitindo que ele apareça a distâncias maiores e para mais pessoas;
-                            Seu estabelecimento ganhará um selo especial no mapa;
-                            Seu app da MiniCity não terá mais anúncios.""")
+Todos os benefícios do plano básico;
+Seu estabelecimento será impulsionado no mapa da Mini City, permitindo que ele apareça a distâncias maiores e para mais pessoas;
+Seu estabelecimento ganhará um selo especial no mapa;
+Seu app da MiniCity não terá mais anúncios.""")
                             print("""\nPlano Empreendedor+: É a evolução do plano empreendedor, potencializando seus efeitos e garantindo benefícios como: 
-                            Todos os benefícios do plano empreendedor;
-                            Seu estabelecimento ganhará um selo de maior nível no mapa;
-                            Você poderá impulsionar mais de um estabelecimento.""")
+Todos os benefícios do plano empreendedor;
+Seu estabelecimento ganhará um selo de maior nível no mapa;
+Você poderá impulsionar mais de um estabelecimento.""")
 
                             print(f"Seu plano atual é: {usuario_atual._assinatura}")
 
