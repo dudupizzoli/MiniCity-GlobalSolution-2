@@ -45,7 +45,7 @@ def validar_credenciais(email, senha): #Função para validar email e senha colo
 
 def exportar_json(): #Função para gerar o relatório de histórico de locais em JSON
     try:
-        historico = locais_dao.listar_locais_buscados()
+        historico = locais_dao.listar_locais_buscados(usuario_atual._id_usuario)
         if historico is None:
             raise OSError("O histórico de locais buscados desta conta não foi encontrado.")
         else:
@@ -55,7 +55,7 @@ def exportar_json(): #Função para gerar o relatório de histórico de locais e
                     "id_local": local[0],
                     "cidade": local[1],
                     "bairro": local[2],
-                    "id_usuario": usuario[3],
+                    "id_usuario": local[3],
                     }
                 lista_historico.append(dados_local)
             with open("historico_minicity.json","w",encoding="utf-8") as arquivo:
