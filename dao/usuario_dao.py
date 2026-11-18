@@ -1,5 +1,6 @@
 import oracledb
 from dao.conexaodb import Conexaodb
+from services.seguranca import gerar_hash
 from models.usuario import Usuario
 import os
 from dotenv import load_dotenv
@@ -23,7 +24,7 @@ class UsuarioDAO:
             return False
 
         username = usuario._username
-        senha = usuario._senha_user
+        senha = gerar_hash(usuario._senha_user)
         email = usuario._email_user
         assinatura = usuario._assinatura
 
@@ -114,7 +115,7 @@ class UsuarioDAO:
 
             senha = input("Digite a senha da conta a ser editada: ").strip()
 
-            if senha == usuario[2]:
+            if gerar_hash(senha) == usuario[2]:
 
                 username = input(f"Seu nome de usuário atual é: {usuario[1]}, caso não queira mudá-lo, aperte enter. Digite seu novo nome de usuário: ").strip()
                 email = input(f"Seu email atual é: {usuario[3]}, caso não queira mudá-lo, aperte enter. Digite seu novo email: ").strip()
@@ -172,7 +173,7 @@ class UsuarioDAO:
         elif confirmacao == "S":
             senha = input("Digite a senha da conta a ser excluída: ").strip()
 
-            if senha == usuario[2]:
+            if gerar_hash(senha) == usuario[2]:
                 conn = self.conexao.conectar()
                 if conn is None:
                     print("Erro ao conectar ao Oracle.")
@@ -215,7 +216,7 @@ class UsuarioDAO:
             """
 
         try:
-            cursor.execute(sql, {"email": email, "senha": senha})
+            cursor.execute(sql, {"email": email, "senha": gerar_hash(senha)})
             usuario_validado = cursor.fetchone()
 
             if usuario_validado is None:
